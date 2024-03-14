@@ -53,6 +53,14 @@ nombre = "Ricardo"
 print(type(nombre))
 listaNombre = list(nombre)
 # ["D", "a", "n", "i", "e", "l"]
+print(listaNombre[0])
+print(listaNombre[1])
+print(listaNombre[2])
+print(listaNombre[3])
+# .
+# .
+# .
+
 for i in range(0,len(listaNombre)):
     print(listaNombre[i])
 
@@ -65,9 +73,12 @@ listaNombre = list(nombre)
 print(listaNombre)
 
 l = "o"
+cantidad = 0
+for letra in listaNombre:
+    if letra.lower() == l:
+        cantidad = cantidad + 1
 
-
-
+print("Hay",cantidad, l,"en el nombre")
 
 
 
