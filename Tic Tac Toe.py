@@ -35,29 +35,58 @@ def crear_lista():
     posiciones = ["@", " ", " ", " ", " ", " ", " ", " ", " ", " "]
     return posiciones
 
-def cambiar_posiciones(posiciones, jugador1, jugador2):
-
-    eleccion_j1 = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    while eleccion_j1 < 1 or eleccion_j1 > 9 or posiciones[eleccion_j1] != " ":
+def cambiar_posiciones(posiciones, jugador):
+    eleccion = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
+    while eleccion < 1 or eleccion > 9 or posiciones[eleccion] != " ":
         print("Valor invalido, elija un número entre 1 y 9.")
-        eleccion_j1 = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    posiciones[eleccion_j1] = jugador1
+        eleccion = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
+    posiciones[eleccion] = jugador
     print(posiciones)
 
-    eleccion_j2 = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    while eleccion_j2 < 1 or eleccion_j2 > 9 or posiciones[eleccion_j2] != " ":
-        print("Valor invalido, elija un número entre 1 y 9.")
-        eleccion_j2 = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    posiciones[eleccion_j2] = jugador2
-    print(posiciones)
+def victoria(tabla, jugador):
+    ganador = False
+    if tabla[1] == jugador and tabla[2] == jugador and tabla[3] == jugador:
+        ganador = jugador
+    elif tabla[4] == jugador and tabla[5] == jugador and tabla[6] == jugador:
+        ganador = jugador
+    elif tabla[7] == jugador and tabla[8] == jugador and tabla[9] == jugador:
+        ganador = jugador
+
+    elif tabla[1] == jugador and tabla[4] == jugador and tabla[7] == jugador:
+        ganador = jugador
+    elif tabla[2] == jugador and tabla[5] == jugador and tabla[8] == jugador:
+        ganador = jugador
+    elif tabla[3] == jugador and tabla[6] == jugador and tabla[9] == jugador:
+        ganador = jugador
+
+    elif tabla[1] == jugador and tabla[5] == jugador and tabla[9] == jugador:
+        ganador = jugador
+    elif tabla[3] == jugador and tabla[5] == jugador and tabla[7] == jugador:
+        ganador = jugador
+
+    elif " " not in tabla:
+        ganador = -1
+
+    return ganador
 
 tabla = dibuja_tabla()
 print(tabla)
-
-jugador1, jugador2 = pregunta()
-
 posiciones = crear_lista()
-cambiar_posiciones(posiciones, jugador1, jugador2)
+jugador1, jugador2 = pregunta()
+ganador = False
+
+while ganador not in ("X", "O", -1):
+    cambiar_posiciones(posiciones, jugador1)
+    ganador = victoria(posiciones, jugador1)
+    print(ganador)
+    if ganador not in ("X", "O", -1):
+        cambiar_posiciones(posiciones, jugador2)
+        ganador = victoria(posiciones, jugador2)
+
+print("El ganador es: ", ganador)
+
+
+
 
 
 
