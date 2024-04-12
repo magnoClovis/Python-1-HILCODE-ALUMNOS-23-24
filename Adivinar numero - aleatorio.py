@@ -1,7 +1,7 @@
 import random
 
 minimo = 0
-maximo = 1000000
+maximo = 10000
 
 num = int(input("Escriba un numero entre 0 y 10. "))
 encontrado = False

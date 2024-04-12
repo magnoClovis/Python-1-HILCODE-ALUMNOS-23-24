@@ -1,260 +1,132 @@
-def dibuja_tabla():
-    tabla = """
-     |       |
-     |       |
-     |       |
---------------------
-     |       |
-     |       |
-     |       |
---------------------
-     |       |
-     |       |
-     |       |
-"""
-    return tabla
+import random
 
-def pregunta():
-    opciones = ("X", "O")
-    jugador1 = input("¿Que eliges, la 'X' o la 'O'? ")
-    jugador1 = jugador1.upper()
-    while jugador1 not in opciones:
-        print("INVALIDO.")
-        print("¿'X' o 'O'?")
-        jugador1 = input("¿Que eliges, la 'X' o la 'O'? ")
-        jugador1 = jugador1.upper()
+def aleatorio():
+    jugador = random.randint(1,2)
+    return jugador
 
-    if jugador1 == opciones[0]:
-        jugador2 = opciones[1]
+def muestra_tabla(tabla):
+    print('   |   |')
+    print(' ' + tabla[7]  + ' | ' + tabla[8] + ' | ' + tabla[9])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + tabla[4] + ' | ' + tabla[5] + ' | ' + tabla[6])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + tabla[1] + ' | ' + tabla[2] + ' | ' + tabla[3])
+    print('   |   |')
+
+def elegir_X_O():
+    jugador_1 = input("Jugador 1, ¿quieres X o O? ")
+    jugador_1 = jugador_1.upper()
+    # jugador_1 = jugador_1.lower()  para minusculas
+
+    while not(jugador_1 == "X" or jugador_1 == "O"):
+        print("¿Qué me estás contando?")
+        jugador_1 = input("¿X o O? ")
+        jugador_1 = jugador_1.upper()
+
+    print("Vale :)")
+
+    if jugador_1 == "X":
+        jugador_2 = "O"
     else:
-        jugador2 = opciones[0]
+        jugador_2 = "X"
 
-    return jugador1, jugador2
+    return jugador_1, jugador_2
 
-def crear_lista():
-    posiciones = ["@", " ", " ", " ", " ", " ", " ", " ", " ", " "]
-    return posiciones
+def cambio_posicion(tabla, jugador):
+    posicion = int(input("¿Cuál posicion? "))
+    while tabla[posicion] != " ":
+        print("POSICIÓN OCUPADA")
+        posicion = int(input("¿Cuál posicion? "))
+    else:
+        tabla[posicion] = jugador
 
-def cambiar_posiciones(posiciones, jugador):
-    eleccion = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    while eleccion < 1 or eleccion > 9 or posiciones[eleccion] != " ":
-        print("Valor invalido, elija un número entre 1 y 9.")
-        eleccion = int(input("¿Dónde quieres jugar? Elija un número entre 1 y 9. "))
-    posiciones[eleccion] = jugador
-    print(posiciones)
+def victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2):
+    ganador = 0
 
-def victoria(tabla, jugador):
-    ganador = False
-    if tabla[1] == jugador and tabla[2] == jugador and tabla[3] == jugador:
-        ganador = jugador
-    elif tabla[4] == jugador and tabla[5] == jugador and tabla[6] == jugador:
-        ganador = jugador
-    elif tabla[7] == jugador and tabla[8] == jugador and tabla[9] == jugador:
-        ganador = jugador
+    if (tabla[1] == tabla[2] and tabla[2] == tabla[3]) and tabla[1] != ' ':
+        ganador = tabla[1]
+    elif (tabla[4] == tabla[5] and tabla[5] == tabla[6]) and tabla[5] != ' ':
+        ganador = tabla[4]
+    elif (tabla[7] == tabla[8] and tabla[8] == tabla[9]) and tabla[7] != ' ':
+        ganador = tabla[7]
+    elif (tabla[1] == tabla[4] and tabla[4] == tabla[7]) and tabla[1] != ' ':
+        ganador = tabla[1]
+    elif (tabla[2] == tabla[5] and tabla[5] == tabla[8]) and tabla[5] != ' ':
+        ganador = tabla[2]
+    elif (tabla[9] == tabla[6] and tabla[6] == tabla[3]) and tabla[9] != ' ':
+        ganador = tabla[9]
+    elif (tabla[1] == tabla[5] and tabla[5] == tabla[9]) and tabla[1] != ' ':
+        ganador = tabla[1]
+    elif (tabla[3] == tabla[5] and tabla[5] == tabla[7]) and tabla[3] != ' ':
+        ganador = tabla[3]
 
-    elif tabla[1] == jugador and tabla[4] == jugador and tabla[7] == jugador:
-        ganador = jugador
-    elif tabla[2] == jugador and tabla[5] == jugador and tabla[8] == jugador:
-        ganador = jugador
-    elif tabla[3] == jugador and tabla[6] == jugador and tabla[9] == jugador:
-        ganador = jugador
-
-    elif tabla[1] == jugador and tabla[5] == jugador and tabla[9] == jugador:
-        ganador = jugador
-    elif tabla[3] == jugador and tabla[5] == jugador and tabla[7] == jugador:
-        ganador = jugador
-
+    if ganador == jugador_1:
+        print("Gana Jugador 1")
+        puntos_j1 = puntos_j1 + 1
+        print("--------------PUNTUACIÓN--------------")
+        print("JUGADOR 1: ", puntos_j1, "PUNTOS")
+        print("JUGADOR 2: ", puntos_j2, "PUNTOS")
+        print("--------------------------------------")
+    elif ganador == jugador_2:
+        print("Gana Jugador 2")
+        puntos_j2 = puntos_j2 + 1
+        print("--------------PUNTUACIÓN--------------")
+        print("JUGADOR 1: ", puntos_j1, "PUNTOS")
+        print("JUGADOR 2: ", puntos_j2, "PUNTOS")
+        print("--------------------------------------")
     elif " " not in tabla:
-        ganador = -1
+        print("Empate")
+        print("--------------PUNTUACIÓN--------------")
+        print("JUGADOR 1: ", puntos_j1, "PUNTOS")
+        print("JUGADOR 2: ", puntos_j2, "PUNTOS")
+        print("--------------------------------------")
+        ganador = 1
+
+    return ganador, puntos_j1, puntos_j2
+
+
+if __name__ == "__main__":
+    puntos_j1 = 0
+    puntos_j2 = 0
+    ganas_de_jugar = "SI"
+    while ganas_de_jugar == "SI":
+
+        tabla = ["#"," "," "," "," "," "," "," "," "," "]
+        muestra_tabla(tabla)
+        jugador_1, jugador_2 = elegir_X_O()
+        jugador = aleatorio()
+        ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
+        print(f"Empieza el jugador {jugador}.")
+
+        while jugador == 1 and ganador == 0:
+            print("Es el turno del jugador 1.")
+            cambio_posicion(tabla, jugador_1)
+            muestra_tabla(tabla)
+            ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
+            if ganador == 0:
+                print("Es el turno del jugador 2.")
+                cambio_posicion(tabla, jugador_2)
+                muestra_tabla(tabla)
+                ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
+
+        while jugador == 2 and ganador == 0:
+            print("Es el turno del jugador 2.")
+            cambio_posicion(tabla, jugador_2)
+            muestra_tabla(tabla)
+            ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
+            if ganador == 0:
+                print("Es el turno del jugador 1.")
+                cambio_posicion(tabla, jugador_1)
+                muestra_tabla(tabla)
+                ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
+
+        ganas_de_jugar = input("¿Quieres jugar otra vez? SI o NO ")
+        ganas_de_jugar = ganas_de_jugar.upper()
+        while ganas_de_jugar != "SI" and ganas_de_jugar != "NO":
+            ganas_de_jugar = input("¡RESPUESTA INVALIDA!\n¿Quieres jugar otra vez? SI o NO ")
+            ganas_de_jugar = ganas_de_jugar.upper()
 
-    return ganador
-
-tabla = dibuja_tabla()
-print(tabla)
-posiciones = crear_lista()
-jugador1, jugador2 = pregunta()
-ganador = False
-
-while ganador not in ("X", "O", -1):
-    cambiar_posiciones(posiciones, jugador1)
-    ganador = victoria(posiciones, jugador1)
-    print(ganador)
-    if ganador not in ("X", "O", -1):
-        cambiar_posiciones(posiciones, jugador2)
-        ganador = victoria(posiciones, jugador2)
-
-print("El ganador es: ", ganador)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def click2(punto):
-    x = punto[0]
-    y = punto[1]
-    fila = int()
-    columna = int()
-    colu_enc = False
-    fila_enc = False
-
-    tabla = [   [1,2,3],
-                [4,5,6],
-                [7,8,9] ]
-
-    i = 100
-    j = 0
-
-    while i <= 300 and not (colu_enc and fila_enc):
-        if y // i == j:
-            fila = y//i
-        j = 0
-        while j < 3 and not fila_enc and not colu_enc:
-            if x // i == j:
-                columna = x // i
-                colu_enc = True
-            j+=1
-
-        i+=100
-
-    posicion = tabla[fila][columna]
-    return posicion
