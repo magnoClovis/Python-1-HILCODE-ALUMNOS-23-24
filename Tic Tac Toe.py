@@ -44,6 +44,14 @@ def cambio_posicion(tabla, jugador):
     else:
         tabla[posicion] = jugador
 
+def cambio_posicion_aleatorio(tabla, jugador):
+    posicion = random.randrange(1,9)
+    while tabla[posicion] != " ":
+        posicion = random.randrange(1,9)
+    else:
+        print("El ordenador elige: ", posicion)
+        tabla[posicion] = jugador
+
 def victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2):
     ganador = 0
 
@@ -88,7 +96,6 @@ def victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2):
 
     return ganador, puntos_j1, puntos_j2
 
-
 if __name__ == "__main__":
     puntos_j1 = 0
     puntos_j2 = 0
@@ -109,13 +116,13 @@ if __name__ == "__main__":
             ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
             if ganador == 0:
                 print("Es el turno del jugador 2.")
-                cambio_posicion(tabla, jugador_2)
+                cambio_posicion_aleatorio(tabla, jugador_2)
                 muestra_tabla(tabla)
                 ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
 
         while jugador == 2 and ganador == 0:
             print("Es el turno del jugador 2.")
-            cambio_posicion(tabla, jugador_2)
+            cambio_posicion_aleatorio(tabla, jugador_2)
             muestra_tabla(tabla)
             ganador, puntos_j1, puntos_j2 = victoria(tabla, jugador_1, jugador_2, puntos_j1, puntos_j2)
             if ganador == 0:
